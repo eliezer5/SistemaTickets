@@ -1,0 +1,6 @@
+@SistemaTicket.API_HostAddress = http://localhost:5004
+
+GET {{SistemaTicket.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
