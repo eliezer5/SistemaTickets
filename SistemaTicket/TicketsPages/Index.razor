@@ -1,0 +1,42 @@
+﻿@page "/Index"
+@inject HttpClient httpClient
+<div class="card">
+    <table class='table table-bordered table-hover'>
+        <thead>
+            <tr>
+                <th>TicketId</th>
+                <th>Fecha</th>
+                <th>SolicitadoPor</th>
+                <th>Asunto</th>
+                <th>Descripci&oacute;n</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detalle in listaDetalles)
+            {
+               
+                <tr>
+                    <td>@detalle.TicketId</td>
+                    <td>@detalle.Fecha</td>
+                    <td>@detalle.SolicitadoPor</td>
+                    <td>@detalle.Asunto</td>
+                    <td>@detalle.Descripcion</td>
+                    <td><button type="button" class="btn btn-danger oi oi-trash">Eliminar</button></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+@code {
+    Tickets ticket = new Tickets();
+
+    List<Tickets> listaDetalles = new List<Tickets>();
+    protected override async Task OnInitializedAsync()
+    {
+        listaDetalles = await httpClient.GetFromJsonAsync<List<Tickets>>("api/Tickets");
+    }
+}
