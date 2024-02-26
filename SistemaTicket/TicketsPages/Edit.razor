@@ -89,13 +89,25 @@
 </EditForm>
 
 @code
-{
+{   
+
     [Parameter]
     public int TicketId { get; set; }
     public Tickets tickets { get; set; } = new Tickets();
     public TicketsDetalles Detalles { get; set; } = new TicketsDetalles();
     public List<TicketsDetalles> listaDetalles = new List<TicketsDetalles>();
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (TicketId > 0)
+        {
+            tickets.TicketId = TicketId;
+            listaDetalles = (await httpClient.GetFromJsonAsync<List<TicketsDetalles>>($"api/TicketsDetalles"))!
+                .Where(p => p.TicketId == tickets.TicketId).ToList();
+            await Buscar();
+        }
+    }
 
     private async Task<Tickets> BuscarTicket(int ticketId)
     {
@@ -129,19 +141,14 @@
 
     public async Task Guardar()
     {
-        var response = await httpClient.PostAsJsonAsync("api/Tickets", tickets);
+        var response = await httpClient.PutAsJsonAsync($"api/Tickets/{TicketId}", tickets);
         if (!response.IsSuccessStatusCode)
         {
             return;
         }
-        var ticketDevuelto = await response.Content.ReadFromJsonAsync<Tickets>();
-        if (ticketDevuelto is not null)
-        {
-            tickets = ticketDevuelto;
-            Detalles.TicketId = tickets.TicketId;
 
-            StateHasChanged();
-        }
+
+        StateHasChanged();
     }
 
     public void Nuevo()

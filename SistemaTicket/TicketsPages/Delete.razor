@@ -88,7 +88,9 @@
             {
                 if (detalle.TicketId == tickets.TicketId)
                 {
-                    await httpClient.DeleteAsync($"api/TicketsDetalle/{tickets.TicketId}");
+                    await httpClient.DeleteAsync($"api/TicketsDetalles/{tickets.TicketId}");
+                    tickets = new Tickets();
+                    ListaDetalles = new List<TicketsDetalles>();
                 }
             }
         }
