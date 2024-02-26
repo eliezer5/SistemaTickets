@@ -10,8 +10,8 @@ namespace SistemaTicket.DAL
 
         }
 
-        DbSet<Tickets> Tickets { get; set; }
-        DbSet<TicketsDetalles> TicketsDetalles { get; set; }
+        public DbSet<Tickets> Tickets { get; set; }
+        public DbSet<TicketsDetalles> TicketsDetalles { get; set; }
 
     }
 }
